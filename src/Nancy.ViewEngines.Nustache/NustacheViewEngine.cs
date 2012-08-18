@@ -18,7 +18,7 @@
         /// <remarks>The extensions should not have a leading dot in the name.</remarks>
         public IEnumerable<string> Extensions
         {
-            get { return new[] { "nustache" }; }
+            get { return new[] { "nustache" ,"mustache"}; }
         }
 
         /// <summary>
@@ -68,8 +68,14 @@
 
                     var writer =
                         new StreamWriter(stream);
+                    TemplateLocator l= name => {
+                        var n = name.Trim();
+                        var templl=renderContext.LocateView(n, model);
+                        var temp2 = GetOrCompileTemplate(templl, renderContext);
+                        return temp2; 
+                    };
 
-                    template.Render(model, writer, null);
+                    template.Render(model, writer,l);
                 }
             };
         }
